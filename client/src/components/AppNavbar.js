@@ -13,14 +13,30 @@ import {
     DropdownItem,
     NavbarText
   } from 'reactstrap';
+import LoginModal from './LoginModal';
+import RegisterModal from './RegisterModal';
 
 class AppNavbar extends Component {
     state={
-        isOpen:false
+        isOpen:false,
+        modalRegister:false,
+        modaleLogin:false
     }
     toggle=()=>{
         this.setState({
             isOpen:!this.state.isOpen
+        });
+    }
+    toggleRegister=(e)=>{
+        e.preventDefault();
+        this.setState({
+            modalRegister:!this.state.modalRegister
+        });
+    }
+    toggleLogin=(e)=>{
+        e.preventDefault();
+        this.setState({
+            modalLogin:!this.state.modalLogin
         });
     }
     render() {
@@ -53,14 +69,16 @@ class AppNavbar extends Component {
                 </Nav>
                 <Nav navbar>
                     <NavItem>
-                        <NavLink href="/components/">Register</NavLink>
+                        <NavLink href="" onClick={this.toggleRegister}>Register</NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink href="/components/">Login</NavLink>
+                        <NavLink href="" onClick={this.toggleLogin}>Login</NavLink>
                     </NavItem>
                 </Nav>
                 </Collapse>
             </Navbar>
+            <LoginModal toggleLogin={this.toggleLogin} modalLogin={this.state.modalLogin} />
+            <RegisterModal toggleRegister={this.toggleRegister} modalRegister={this.state.modalRegister} />
             </div>
         )
     }
