@@ -17,8 +17,8 @@ class LoginModal extends Component {
 
     componentDidUpdate(prevProps){
         const {error}=this.props;
-        if(error!=prevProps.error){
-            if(error.id=="LOGIN_FAIL"){
+        if(error!==prevProps.error){
+            if(error.id==="LOGIN_FAIL"){
                 this.setState({
                     msg:error.msg.msg
                 });
@@ -42,6 +42,7 @@ class LoginModal extends Component {
             password
         }
         this.props.login(user);
+        this.props.toggleLogin(this.props.evt)
     }
 
     render() {

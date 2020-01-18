@@ -22,14 +22,15 @@ import {
         case USER_LOADING:
             return{
                 ...state,
-                isLoading:true
+                isLoading:true,
+                finish:false
             }
         case USER_LOADED:
             return{
                 ...state,
                 isAuthenticated:true,
                 isLoading:false,
-                user:action.payload,
+                user:action.payload.data,
                 finish:true
             }
         case LOGIN_SUCCESS:
@@ -39,7 +40,8 @@ import {
                 ...state,
                 ...action.payload,
                 isAuthenticated:true,
-                isLoading:false
+                isLoading:false,
+                finish:true
             }
         case AUTH_ERROR:
         case LOGIN_FAIL:

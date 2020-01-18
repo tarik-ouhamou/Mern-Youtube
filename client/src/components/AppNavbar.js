@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component,Fragment } from 'react';
 import {
     Collapse,
     Navbar,
@@ -23,7 +23,9 @@ class AppNavbar extends Component {
     state={
         isOpen:false,
         modalRegister:false,
-        modaleLogin:false
+        modaleLogin:false,
+        er:null,
+        el:null
     }
     toggle=()=>{
         this.setState({
@@ -31,17 +33,20 @@ class AppNavbar extends Component {
         });
     }
     toggleRegister=(e)=>{
+        console.log(e);
         e.preventDefault();
         this.props.clearErrors();
         this.setState({
-            modalRegister:!this.state.modalRegister
+            modalRegister:!this.state.modalRegister,
+            er:e
         });
     }
     toggleLogin=(e)=>{
         e.preventDefault();
         this.props.clearErrors();
         this.setState({
-            modalLogin:!this.state.modalLogin
+            modalLogin:!this.state.modalLogin,
+            el:e
         });
     }
     onLogout=(e)=>{
@@ -49,6 +54,29 @@ class AppNavbar extends Component {
         this.props.logout();
     }
     render() {
+        const {user}=this.props;
+        const authLinks=(
+            <Fragment>
+                <NavItem>
+                    <span className='navbar-text mr-3'>
+                        <strong>{user ? `Welcome ${user.username}` : ''}</strong>
+                    </span>
+                </NavItem>
+                <NavItem>
+                    <NavLink href="" onClick={this.onLogout}>Logout</NavLink>
+                </NavItem>
+            </Fragment>
+        )
+        const guestLinks=(
+            <Fragment>
+                <NavItem>
+                    <NavLink href="" onClick={this.toggleRegister}>Register</NavLink>
+                </NavItem>
+                <NavItem>
+                    <NavLink href="" onClick={this.toggleLogin}>Login</NavLink>
+                </NavItem>
+            </Fragment>
+        )
         return (
             <div>
                 <Navbar color="dark" dark light expand="sm">
@@ -67,28 +95,23 @@ class AppNavbar extends Component {
                         Options
                     </DropdownToggle>
                     <DropdownMenu right>
-                        <DropdownItem>
-                        <a href="/home">Download one video</a>
+                        <DropdownItem href="/home">
+                            Download one video
                         </DropdownItem>
                         <DropdownItem>
-                        Download playlist
+                            Download playlist
                         </DropdownItem>
                     </DropdownMenu>
                     </UncontrolledDropdown>):null}
                 </Nav>
                 <Nav navbar>
-                    <NavItem>
-                    {!this.props.isAuthenticated ? (<NavLink href="" onClick={this.toggleRegister}>Register</NavLink>):
-                    (<NavLink href="" onClick={this.onLogout}>Logout</NavLink>)}
-                    </NavItem>
-                    {!this.props.isAuthenticated ? (<NavItem>
-                        <NavLink href="" onClick={this.toggleLogin}>Login</NavLink>
-                    </NavItem>):null}
+                    {(this.props.isAuthenticated && this.props.finish) && authLinks}
+                    {(!this.props.isAuthenticated && this.props.finish) && guestLinks}
                 </Nav>
                 </Collapse>
             </Navbar>
-            <LoginModal toggleLogin={this.toggleLogin} modalLogin={this.state.modalLogin} />
-            <RegisterModal toggleRegister={this.toggleRegister} modalRegister={this.state.modalRegister} />
+            <LoginModal evt={this.state.el} toggleLogin={this.toggleLogin} modalLogin={this.state.modalLogin} />
+            <RegisterModal evt={this.state.er} toggleRegister={this.toggleRegister} modalRegister={this.state.modalRegister} />
             </div>
         )
     }
@@ -103,7 +126,9 @@ AppNavbar.proptype={
 
 const mapStateToProps=(state)=>({
     isAuthenticated:state.auth.isAuthenticated,
-    error:state.error
+    user:state.auth.user,
+    error:state.error,
+    finish:state.auth.finish
 });
 
 export default connect(mapStateToProps,{clearErrors,logout})(AppNavbar);
