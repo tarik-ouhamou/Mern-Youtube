@@ -5,10 +5,6 @@ const jwt=require('jsonwebtoken');
 const bcrypt=require('bcrypt');
 const config=require('config');
 
-router.get('/',(req,res)=>{
-    res.send("users");
-});
-
 router.post('/',(req,res)=>{
     const {username,email,password,confirmPass}=req.body;
     if(!username || !email || !password){
@@ -52,4 +48,5 @@ router.post('/',(req,res)=>{
     });
     
 });
+
 module.exports=router;
