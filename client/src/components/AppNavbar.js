@@ -51,7 +51,7 @@ class AppNavbar extends Component {
                     <NavLink href="/components/">History</NavLink>
                     </NavItem>
                     <NavItem>
-                    <NavLink href="https://github.com/DefaultLol">GitHub</NavLink>
+                    <NavLink href="https://github.com/DefaultLol?tab=repositories">GitHub</NavLink>
                     </NavItem>
                     <UncontrolledDropdown nav inNavbar>
                     <DropdownToggle nav caret>
