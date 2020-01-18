@@ -6,10 +6,6 @@ const bcrypt=require('bcrypt');
 const config=require('config');
 const auth=require('../middleware/auth');
 
-router.get('/',(req,res)=>{
-    res.send("users");
-});
-
 router.post('/',(req,res)=>{
     const {email,password}=req.body;
     if(!email || !password){
@@ -42,7 +38,7 @@ router.post('/',(req,res)=>{
 });
 
 //to verify the user by token
-router.get('/',auth,(req,res)=>{
+router.get('/user',auth,(req,res)=>{
     User.findById(req.user.id).then(user=>{
         res.json(user);
     });

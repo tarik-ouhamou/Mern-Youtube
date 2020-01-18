@@ -7,21 +7,27 @@ import Home from './components/Home';
 import AppNavbar from './components/AppNavbar';
 import HomePage from './components/HomePage';
 import {BrowserRouter as Router,Route} from 'react-router-dom';
+import {loadUser} from './actions/authActions';
 
-function App() {
-  return (
-    <div>
-      <AppNavbar />
-      <Router>
-        <div className="App">
+class App extends React.Component {
+  componentDidMount(){
+    store.dispatch(loadUser());
+  }
+  render(){
+    return(
+      <div>
+        <Router>
           <Provider store={store}>
-            <Route path="/" exact component={HomePage} />
-            <Route path="/home" exact component={Home} />
+            <AppNavbar />
+            <div className="App">
+              <Route path="/" exact component={HomePage} />
+              <Route path="/home" exact component={Home} />
+            </div>
           </Provider>
-        </div>
-      </Router>
-    </div>
-  );
+        </Router>
+      </div>
+    )
+  }
 }
 
 export default App;

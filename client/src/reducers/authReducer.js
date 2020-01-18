@@ -13,7 +13,8 @@ import {
     token:localStorage.getItem("token"),
     isAuthenticated:false,
     isLoading:false,
-    user:null
+    user:null,
+    finish:false
   }
 
   export default function(state=initialState,action){
@@ -28,7 +29,8 @@ import {
                 ...state,
                 isAuthenticated:true,
                 isLoading:false,
-                user:action.payload
+                user:action.payload,
+                finish:true
             }
         case LOGIN_SUCCESS:
         case REGISTER_SUCCESS:
@@ -37,7 +39,7 @@ import {
                 ...state,
                 ...action.payload,
                 isAuthenticated:true,
-                isLoading:false,
+                isLoading:false
             }
         case AUTH_ERROR:
         case LOGIN_FAIL:
@@ -49,7 +51,8 @@ import {
                 token:null,
                 user:null,
                 isAuthenticated:false,
-                isLoading:false
+                isLoading:false,
+                finish:true
             }
         default:
             return state;

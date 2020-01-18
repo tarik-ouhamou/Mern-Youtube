@@ -11,10 +11,13 @@ import {
     DropdownToggle,
     DropdownMenu,
     DropdownItem,
-    NavbarText
   } from 'reactstrap';
 import LoginModal from './LoginModal';
 import RegisterModal from './RegisterModal';
+import {clearErrors} from '../actions/errorActions';
+import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
+import {logout} from '../actions/authActions';
 
 class AppNavbar extends Component {
     state={
@@ -29,15 +32,21 @@ class AppNavbar extends Component {
     }
     toggleRegister=(e)=>{
         e.preventDefault();
+        this.props.clearErrors();
         this.setState({
             modalRegister:!this.state.modalRegister
         });
     }
     toggleLogin=(e)=>{
         e.preventDefault();
+        this.props.clearErrors();
         this.setState({
             modalLogin:!this.state.modalLogin
         });
+    }
+    onLogout=(e)=>{
+        e.preventDefault();
+        this.props.logout();
     }
     render() {
         return (
@@ -47,33 +56,34 @@ class AppNavbar extends Component {
                 <NavbarToggler onClick={this.toggle} />
                 <Collapse isOpen={this.state.isOpen} navbar>
                 <Nav className="mr-auto" navbar>
-                    <NavItem>
+                    {this.props.isAuthenticated ? (<NavItem>
                     <NavLink href="/components/">History</NavLink>
-                    </NavItem>
+                    </NavItem>):null}
                     <NavItem>
                     <NavLink href="https://github.com/DefaultLol?tab=repositories">GitHub</NavLink>
                     </NavItem>
-                    <UncontrolledDropdown nav inNavbar>
+                    {this.props.isAuthenticated ? (<UncontrolledDropdown nav inNavbar>
                     <DropdownToggle nav caret>
                         Options
                     </DropdownToggle>
                     <DropdownMenu right>
                         <DropdownItem>
-                        Download one video
+                        <a href="/home">Download one video</a>
                         </DropdownItem>
                         <DropdownItem>
                         Download playlist
                         </DropdownItem>
                     </DropdownMenu>
-                    </UncontrolledDropdown>
+                    </UncontrolledDropdown>):null}
                 </Nav>
                 <Nav navbar>
                     <NavItem>
-                        <NavLink href="" onClick={this.toggleRegister}>Register</NavLink>
+                    {!this.props.isAuthenticated ? (<NavLink href="" onClick={this.toggleRegister}>Register</NavLink>):
+                    (<NavLink href="" onClick={this.onLogout}>Logout</NavLink>)}
                     </NavItem>
-                    <NavItem>
+                    {!this.props.isAuthenticated ? (<NavItem>
                         <NavLink href="" onClick={this.toggleLogin}>Login</NavLink>
-                    </NavItem>
+                    </NavItem>):null}
                 </Nav>
                 </Collapse>
             </Navbar>
@@ -84,4 +94,16 @@ class AppNavbar extends Component {
     }
 }
 
-export default AppNavbar;
+AppNavbar.proptype={
+    clearErros:PropTypes.func.isRequired,
+    isAuthenticated:PropTypes.bool,
+    logout:PropTypes.func.isRequired
+}
+
+
+const mapStateToProps=(state)=>({
+    isAuthenticated:state.auth.isAuthenticated,
+    error:state.error
+});
+
+export default connect(mapStateToProps,{clearErrors,logout})(AppNavbar);
