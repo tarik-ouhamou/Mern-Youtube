@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Container,Form,FormGroup,Input,Button} from 'reactstrap';
+import {Container,Form,FormGroup,Input,Button,Card,CardImg,CardBody,CardTitle,CardText} from 'reactstrap';
 import {downloadVideo,loadingVideo} from '../actions/homeActions';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
@@ -21,7 +21,7 @@ class Home extends Component {
                 stay:1
             });
         }
-        else if(this.props.isAuthenticated && this.props.finish && this.state.time!=1){
+        else if(this.props.isAuthenticated && this.props.finish && this.state.time!==1){
             this.setState({
                 stay:2,
                 time:1
@@ -31,11 +31,12 @@ class Home extends Component {
 
     onSubmitForm=(e)=>{
         e.preventDefault();
-        const newUrl={
-            url:this.state.url
+        const info={
+            url:this.state.url,
+            user_id:this.props.user._id
         }
         this.props.loadingVideo();
-        this.props.downloadVideo(newUrl);
+        this.props.downloadVideo(info);
     }
     onChangeUrl=(e)=>{
         this.setState({
@@ -45,7 +46,8 @@ class Home extends Component {
 
     render() {
         console.log(this.state.stay);
-        if(this.state.stay==2){
+        if(this.state.stay===2){
+            const {description,title,thumbnail,loading,linkMp3,linkMp4}=this.props.home
             return (
                 <div>
                     <Container>
@@ -54,16 +56,23 @@ class Home extends Component {
                                 <h3 className="text-center" style={{marginBottom:'2rem'}}>Download One Video</h3>
                                 <Input type="text" name="url" id="url" placeholder="Enter youtube video url" onChange={this.onChangeUrl} />
                                 <Button color="dark" style={{marginTop:'2rem'}} block>Download</Button>
-                                {this.props.home.loading && <p className="text-center" style={{marginTop:"2rem"}}><i className="fa fa-refresh fa-spin" style={{fontSize:"80px",color:"#00bfff"}}></i><br /><span>Genrating Link</span></p>}
+                                {loading && <p className="text-center" style={{marginTop:"2rem"}}><i className="fa fa-refresh fa-spin" style={{fontSize:"80px",color:"#00bfff"}}></i><br /><span>Genrating Link</span></p>}
                             </FormGroup>
                         </Form>
-                        {this.props.home.linkMp3 && <div className="text-center"><a href={''+this.props.home.linkMp3+'.mp3'} download>Mp3 Link</a></div>}
-                        {this.props.home.linkMp4 && <div className="text-center"><a href={''+this.props.home.linkMp4+'.mp4'} download>Mp4 Link</a></div>}       
+                        {linkMp3 && <div className="text-center offset-3"><div className="card" style={{width: "35rem"}}>
+                        <img className="card-img-top" src={thumbnail} alt="Card image cap" />
+                        <div className="card-body">
+                            <h5 className="card-title">{title}</h5>
+                            <p className="card-text">{description}</p>
+                            <a href={''+linkMp3+'.mp3'} className="btn btn-primary" download>Link Mp3</a>
+                            <a href={''+linkMp4+'.mp4'} className="btn btn-primary" style={{marginLeft:"2%"}} download>Link Mp4</a>
+                        </div>
+                    </div> </div>}      
                     </Container>
                 </div>
             )
         }
-        else if(this.state.stay==1){
+        else if(this.state.stay===1){
             return(
                 <Redirect to="/" />
             )
@@ -85,7 +94,8 @@ Home.proptype={
 const mapStateToProps=(state)=>({
     home:state.home,
     isAuthenticated:state.auth.isAuthenticated,
-    finish:state.auth.finish
+    finish:state.auth.finish,
+    user:state.auth.user
 });
 
 export default connect(mapStateToProps,{downloadVideo,loadingVideo})(Home);
