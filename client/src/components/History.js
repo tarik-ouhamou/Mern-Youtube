@@ -65,7 +65,7 @@ class History extends Component {
                                     <p className="text-center"><img src={video.thumbnail} className="card-img-top" alt="..." style={{width:"315px",height:"160px"}} /></p>
                                     <div className="card-body text-center">
                                     <p className="card-title"><strong>{video.title}</strong></p>
-                                    <span>{video.creation_date}</span>
+                                   
                                     <a href={''+video.linkMp3+'.mp3'} className="btn btn-primary" download>Link Mp3</a>
                                     <a href={''+video.linkMp4+'.mp4'} className="btn btn-primary" style={{marginLeft:"2%"}} download>Link Mp4</a>
                                     <Button color="danger" style={{marginLeft:"2%"}} onClick={()=> this.onDeleteHistory(video._id)}>Delete</Button>
