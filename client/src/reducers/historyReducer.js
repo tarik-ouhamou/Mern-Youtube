@@ -1,4 +1,4 @@
-import {HISTORY_LOADING,HISTORY_LOADED} from "../actions/types";
+import {HISTORY_LOADING,HISTORY_LOADED, HISTORY_DELETED, SEARCH_HISTORY} from "../actions/types";
 
 const initialState={
     videos:[],
@@ -12,6 +12,16 @@ export default function(state=initialState,action){
                 isLoading:true
             }
         case HISTORY_LOADED:
+            return{
+                videos:action.payload,
+                isLoading:false
+            }
+        case HISTORY_DELETED:
+            return{
+                videos:state.videos.filter(video=>video._id!==action.payload),
+                isLoading:false
+            }
+        case SEARCH_HISTORY:
             return{
                 videos:action.payload,
                 isLoading:false

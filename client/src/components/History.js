@@ -1,15 +1,30 @@
 import React, { Component } from 'react';
 import {Container,Form,FormGroup,Input,Button} from 'reactstrap';
 import {connect} from 'react-redux';
-import {loadHistory} from '../actions/historyActions';
+import {loadHistory,deleteHistory,searchHistory} from '../actions/historyActions';
 import PropTypes from 'prop-types';
 import {Redirect} from 'react-router-dom'
 
 class History extends Component {
     state={
         videos:[],
+        title:'',
         stay:0,
         time:0
+    }
+    onChange=(e)=>{
+        const id=this.props.user._id;
+        const title=e.target.value;
+        this.setState({
+            title
+        },()=>{
+            if(title!=''){
+                this.props.searchHistory(id,this.state.title);
+            }
+            else{
+                this.props.loadHistory(id);
+            }    
+        });
     }
     componentDidUpdate(prevProps){
         if(!this.props.isAuthenticated && this.props.finish){
@@ -30,6 +45,9 @@ class History extends Component {
         this.props.loadHistory(this.props.user._id);
         console.log(this.props.videos);
     }
+    onDeleteHistory=(id)=>{
+        this.props.deleteHistory(id);
+    }
     render() {
         if(this.state.stay===2){
             return (
@@ -38,8 +56,7 @@ class History extends Component {
                         <Form onSubmit={this.onSubmit}>
                             <FormGroup>
                                 <h3 className="text-center" style={{marginBottom:'2rem'}}>Download History</h3>
-                                <Input type="text" name="title" placeholder="Enter title of video"  />
-                                <Button color="dark" style={{marginTop:'1rem'}} block>Search</Button>
+                                <Input type="text" name="title" placeholder="Enter title of video" onChange={this.onChange} />
                             </FormGroup>
                         </Form>
                         <div className="row">
@@ -48,8 +65,10 @@ class History extends Component {
                                     <p className="text-center"><img src={video.thumbnail} className="card-img-top" alt="..." style={{width:"315px",height:"160px"}} /></p>
                                     <div className="card-body text-center">
                                     <p className="card-title"><strong>{video.title}</strong></p>
+                                    <span>{video.creation_date}</span>
                                     <a href={''+video.linkMp3+'.mp3'} className="btn btn-primary" download>Link Mp3</a>
                                     <a href={''+video.linkMp4+'.mp4'} className="btn btn-primary" style={{marginLeft:"2%"}} download>Link Mp4</a>
+                                    <Button color="danger" style={{marginLeft:"2%"}} onClick={()=> this.onDeleteHistory(video._id)}>Delete</Button>
                                     </div>
                                 </div>
                             ))}
@@ -68,7 +87,9 @@ class History extends Component {
 }
 
 History.propType={
-    loadingHistory:PropTypes.func.isRequired
+    loadingHistory:PropTypes.func.isRequired,
+    deleteHistory:PropTypes.func.isRequired,
+    searchHistory:PropTypes.func.isRequired
 }
 
 const mapStateToProps=(state)=>({
@@ -78,4 +99,4 @@ const mapStateToProps=(state)=>({
     finish:state.auth.finish,
 });
 
-export default connect(mapStateToProps,{loadHistory})(History);
+export default connect(mapStateToProps,{loadHistory,deleteHistory,searchHistory})(History);
