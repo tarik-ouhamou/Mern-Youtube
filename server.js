@@ -23,6 +23,7 @@ connection.once('open',()=>{
 app.use('/download',require('./routes/download'));
 app.use('/users',require('./routes/users'));
 app.use('/auth',require('./routes/auth'));
+app.use('/history',require('./routes/history'));
 
 app.listen(PORT,()=>{
     console.log(`Server Listening at port ${PORT}...`);

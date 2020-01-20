@@ -85,7 +85,7 @@ class AppNavbar extends Component {
                 <Collapse isOpen={this.state.isOpen} navbar>
                 <Nav className="mr-auto" navbar>
                     {this.props.isAuthenticated ? (<NavItem>
-                    <NavLink href="/components/">History</NavLink>
+                    <NavLink href="/history">History</NavLink>
                     </NavItem>):null}
                     <NavItem>
                     <NavLink href="https://github.com/DefaultLol?tab=repositories">GitHub</NavLink>

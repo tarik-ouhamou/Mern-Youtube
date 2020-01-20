@@ -6,6 +6,7 @@ import {Provider} from 'react-redux';
 import Home from './components/Home';
 import AppNavbar from './components/AppNavbar';
 import HomePage from './components/HomePage';
+import History from './components/History';
 import {BrowserRouter as Router,Route} from 'react-router-dom';
 import {loadUser} from './actions/authActions';
 
@@ -22,6 +23,7 @@ class App extends React.Component {
             <div className="App">
               <Route path="/" exact component={HomePage} />
               <Route path="/home" exact component={Home} />
+              <Route path="/history" exact component={History} />
             </div>
           </Provider>
         </Router>
