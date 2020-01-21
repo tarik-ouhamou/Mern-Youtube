@@ -7,6 +7,7 @@ import Home from './components/Home';
 import AppNavbar from './components/AppNavbar';
 import HomePage from './components/HomePage';
 import History from './components/History';
+import Playlist from './components/Playlist';
 import {BrowserRouter as Router,Route} from 'react-router-dom';
 import {loadUser} from './actions/authActions';
 
@@ -24,6 +25,7 @@ class App extends React.Component {
               <Route path="/" exact component={HomePage} />
               <Route path="/home" exact component={Home} />
               <Route path="/history" exact component={History} />
+              <Route path="/playlist" exact component={Playlist} />
             </div>
           </Provider>
         </Router>

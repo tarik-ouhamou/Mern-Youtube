@@ -98,7 +98,7 @@ class AppNavbar extends Component {
                         <DropdownItem href="/home">
                             Download one video
                         </DropdownItem>
-                        <DropdownItem>
+                        <DropdownItem href="/playlist">
                             Download playlist
                         </DropdownItem>
                     </DropdownMenu>
