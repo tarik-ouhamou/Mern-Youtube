@@ -9,7 +9,6 @@ app.use(cors());
 app.use('/mp3',express.static(__dirname+'/mp3'));
 app.use('/mp4',express.static(__dirname+'/mp4'));
 const PORT=config.get("PORT")||5000;
-
 const mongoURI=config.get("MongoURI");
 
 //mongoose

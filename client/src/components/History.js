@@ -49,7 +49,7 @@ class History extends Component {
         this.props.deleteHistory(id);
     }
     render() {
-        if(this.state.stay===2){
+        if(this.state.stay===2 && this.props.isAuthenticated){
             return (
                 <div>
                     <Container>
