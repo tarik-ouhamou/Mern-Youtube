@@ -8,6 +8,7 @@ import AppNavbar from './components/AppNavbar';
 import HomePage from './components/HomePage';
 import History from './components/History';
 import Playlist from './components/Playlist';
+import Player from './components/Player';
 import {BrowserRouter as Router,Route} from 'react-router-dom';
 import {loadUser} from './actions/authActions';
 
@@ -26,6 +27,7 @@ class App extends React.Component {
               <Route path="/home" exact component={Home} />
               <Route path="/history" exact component={History} />
               <Route path="/playlist" exact component={Playlist} />
+              <Route path="/player" exact component={Player} />
             </div>
           </Provider>
         </Router>

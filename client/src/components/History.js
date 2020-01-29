@@ -59,6 +59,7 @@ class History extends Component {
                                 <Input type="text" name="title" placeholder="Enter title of video" onChange={this.onChange} />
                             </FormGroup>
                         </Form>
+                        {this.props.history.isLoading && <p className="text-center"><i className="fa fa-refresh fa-spin" style={{fontSize:"80px",color:"#00bfff",marginTop:"8%"}}></i></p>}
                         <div className="row">
                             {this.props.history.videos.map(video=>(
                                 <div className="card ml-4" style={{width: "20rem", height:"20rem"}} key={video._id}>
@@ -66,8 +67,8 @@ class History extends Component {
                                     <div className="card-body text-center">
                                     <p className="card-title"><strong>{video.title}</strong></p>
                                    
-                                    <a href={''+video.linkMp3+'.mp3'} className="btn btn-primary" download>Link Mp3</a>
-                                    <a href={''+video.linkMp4+'.mp4'} className="btn btn-primary" style={{marginLeft:"2%"}} download>Link Mp4</a>
+                                    <a href={'http://localhost:5000/mp3/'+video.fileName+'.mp3'} className="btn btn-primary" download>Link Mp3</a>
+                                    <a href={'http://localhost:5000/mp4/'+video.fileName+'.mp4'} className="btn btn-primary" style={{marginLeft:"2%"}} download>Link Mp4</a>
                                     <Button color="danger" style={{marginLeft:"2%"}} onClick={()=> this.onDeleteHistory(video._id)}>Delete</Button>
                                     </div>
                                 </div>

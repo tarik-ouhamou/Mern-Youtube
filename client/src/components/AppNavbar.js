@@ -87,6 +87,9 @@ class AppNavbar extends Component {
                     {this.props.isAuthenticated ? (<NavItem>
                     <NavLink href="/history">History</NavLink>
                     </NavItem>):null}
+                    {this.props.isAuthenticated ? (<NavItem>
+                    <NavLink href="/player">Player</NavLink>
+                    </NavItem>):null}
                     <NavItem>
                     <NavLink href="https://github.com/DefaultLol?tab=repositories">GitHub</NavLink>
                     </NavItem>
