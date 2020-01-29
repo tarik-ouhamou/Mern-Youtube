@@ -33,7 +33,7 @@ class RegisterModal extends Component {
         this.setState({[e.target.name]:e.target.value});
     }
 
-    onSubmit=(e)=>{
+    onSubmit=async(e)=>{
         e.preventDefault();
         const {username,email,password,confirmPass}=this.state
         const user={
@@ -44,7 +44,11 @@ class RegisterModal extends Component {
         }
 
         this.props.register(user);
-        this.props.toggleRegister(this.props.evt);
+        const sleep = m => new Promise(r => setTimeout(r, m));
+        await sleep(1900)
+        if(this.props.isAuthenticated){
+            this.props.toggleRegister(this.props.evt);
+        }
     }
 
     render() {
@@ -58,6 +62,9 @@ class RegisterModal extends Component {
                         <ModalBody>
                         {this.state.msg ? (
                             <Alert color='danger'>{this.state.msg}</Alert>
+                        ) : null}
+                        {this.props.isAuthenticated ? (
+                            <Alert color='success'>Succefully Registered</Alert>
                         ) : null}
                             <Form onSubmit={this.onSubmit}>
                                 <FormGroup>

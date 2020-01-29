@@ -20,12 +20,14 @@ class LoginModal extends Component {
         if(error!==prevProps.error){
             if(error.id==="LOGIN_FAIL"){
                 this.setState({
-                    msg:error.msg.msg
+                    msg:error.msg.msg,
+                    password:''
                 });
             }
             else{
                 this.setState({
-                    msg:null
+                    msg:null,
+                    password:''
                 });
             }
         }
@@ -34,7 +36,7 @@ class LoginModal extends Component {
         this.setState({[e.target.name]:e.target.value});
     }
 
-    onSubmit=(e)=>{
+    onSubmit=async(e)=>{
         e.preventDefault();
         const {email,password}=this.state;
         const user={
@@ -42,7 +44,14 @@ class LoginModal extends Component {
             password
         }
         this.props.login(user);
-        this.props.toggleLogin(this.props.evt)
+        this.setState({
+            password:''
+        });
+        const sleep = m => new Promise(r => setTimeout(r, m));
+        await sleep(1900)
+        if(this.props.isAuthenticated){
+            this.props.toggleLogin(this.props.evt)
+        }
     }
 
     render() {
@@ -56,6 +65,9 @@ class LoginModal extends Component {
                         <ModalBody>
                             {this.state.msg ? (
                                 <Alert color='danger'>{this.state.msg}</Alert>
+                            ) : null}
+                            {this.props.isAuthenticated ? (
+                                <Alert color='success'>Succefully Authenticated</Alert>
                             ) : null}
                             <Form onSubmit={this.onSubmit}>
                                 <FormGroup>

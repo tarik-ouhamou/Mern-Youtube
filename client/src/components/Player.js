@@ -10,7 +10,7 @@ class Player extends Component {
         super(props);
         this.state={
             play:false,
-            pause:true,
+            pause:false,
             stay:0,
             time:0,
             currentAudio:''
@@ -69,11 +69,17 @@ class Player extends Component {
                             <strong>Currently Playing {this.state.currentAudio.split('http://localhost:5000/mp3/')}</strong><br />
                             <p className="text-center" style={{marginTop:"1rem"}}><Button color="danger" onClick={this.pause}><i class="fa fa-pause"></i> Pause</Button></p>
                         </p>}
+                        {this.state.pause && 
+                        <p className="text-center">
+                            <i className="fa fa-spinner fa-spin" style={{fontSize:"20px",color:"#00bfff",marginRight:'1%'}}></i>
+                            <strong>Currently Paused {this.state.currentAudio.split('http://localhost:5000/mp3/')}</strong><br />
+                            <p className="text-center" style={{marginTop:"1rem"}}><Button color="danger" onClick={()=>this.play(this.state.currentAudio)}><i className="fa fa-play"></i> Resume</Button></p>
+                        </p>}
                         {videos && <ListGroup>
                             {videos.map(video=>(
                                 <ListGroupItem><span><img src={video.thumbnail} style={{width:"60px",height:"50px",marginRight:"3%"}} /></span>{video.title}
                                 <div style={{float:"right"}}>
-                                    <Button color="primary" onClick={()=>this.play('http://localhost:5000/mp3/'+video.fileName+'.mp3')}><i class="fa fa-play"></i> Play</Button>
+                                    <Button color="primary" onClick={()=>this.play('http://localhost:5000/mp3/'+video.fileName+'.mp3')}><i classNName="fa fa-play"></i> Play</Button>
                                     <a> </a>
                                 </div>
                                 </ListGroupItem>
